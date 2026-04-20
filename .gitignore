@@ -1,0 +1,58 @@
+# ========================
+# Maven build output
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.pom
+dependency-reduced-pom.xml
+
+# ========================
+# Java compiled files
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# ========================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ========================
+# VS Code
+# ========================
+.vscode/
+*.code-workspace
+
+# ========================
+# Eclipse
+# ========================
+.eclipse/
+.classpath
+.project
+.settings/
+bin/
+
+# ========================
+# Windows system files
+# ========================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ========================
+# This project specific
+# ========================
+appendonly.aof
+*.rdb
+*.log
