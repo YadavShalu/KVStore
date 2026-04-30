@@ -3,7 +3,7 @@ package com.kvstore.store;
 import java.util.LinkedHashMap;
 import java.util.Map;
 public class LRUCache {
-    private final int capacity;
+    public final int capacity;
     private final LinkedHashMap<String, String>cache;
 
     public LRUCache(int capacity){
