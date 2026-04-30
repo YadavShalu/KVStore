@@ -1,4 +1,4 @@
-package com.inmemdb;
+package com.kvstore;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,7 +17,7 @@ public class Server {
             logger.info("Shutting down server...");
         }));
         try(ServerSocket serverSocket = new ServerSocket(port)){
-            logger.log(Level.INFO, "InMemDB running on port {0}", port);
+            logger.log(Level.INFO, "KVStore running on port {0}", port);
 
             while (running) {
                 Socket client = serverSocket.accept();
