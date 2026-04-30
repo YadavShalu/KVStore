@@ -14,6 +14,7 @@ public class DataStore {
     }
 
     public static String get(String key){
+        if(TTLManager.isExpired(key)) return "$-1";
         String val = store.get(key);
         return val != null ? "+" + val : "$-1" ; // $-1 means nill in RESP
     }
