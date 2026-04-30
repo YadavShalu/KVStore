@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+// Append Only File 
 public class AOFWriter {
     private static final String FILE = "appendonly.aof";
 
