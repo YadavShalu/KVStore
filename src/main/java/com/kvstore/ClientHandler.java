@@ -27,7 +27,7 @@ public class ClientHandler implements Runnable {
                     int argCount = Integer.parseInt(line.substring(1));
                     String[] args = new String[argCount];
                     for(int i=0; i<argCount ; i++){
-                        in.readLine();
+                        String lenLine = in.readLine();
                         args[i] = in.readLine();
                     }
                     String response = dispatch(args,out);
