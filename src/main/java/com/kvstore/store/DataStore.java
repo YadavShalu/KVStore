@@ -2,6 +2,8 @@ package com.kvstore.store;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.kvstore.persistence.AOFWriter;
+
 public class DataStore {
     private static final ConcurrentHashMap<String ,String> store = new ConcurrentHashMap<>();
 
@@ -10,6 +12,7 @@ public class DataStore {
 
     public static String set(String key, String value){
         store.put(key,value);
+        AOFWriter.log("SET " + key + " " + value);
         return "+OK";
     }
 
