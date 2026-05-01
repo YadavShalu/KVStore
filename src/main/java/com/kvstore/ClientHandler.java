@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
+import com.kvstore.pubsub.PubSubManager;
 import com.kvstore.store.DataStore;
 
 public class ClientHandler implements Runnable {
@@ -28,8 +30,11 @@ public class ClientHandler implements Runnable {
                         in.readLine();
                         args[i] = in.readLine();
                     }
-                    String response = dispatch(args);
-                    out.println(response);
+                    String response = dispatch(args,out);
+                    if (response != null) {
+                        out.print(response + "\r\n");
+                        out.flush();
+                    }
                 }
             }
         }
@@ -39,12 +44,20 @@ public class ClientHandler implements Runnable {
             
     }
 
-    private String dispatch(String[] args){
+    private String dispatch(String[] args, PrintWriter out){
         return switch(args[0].toUpperCase()){
             case "SET" -> DataStore.set(args[1],args[2]);
             case "GET" -> DataStore.get(args[1]);
             case "DEL" -> DataStore.del(args[1]);
             case "PING" -> "+PONG";
+            case "SUBSCRIBE" -> {
+                PubSubManager.subscribe(args[1], out);
+                yield null; 
+            }
+            case "PUBLISH" -> {
+                    int count = PubSubManager.publish(args[1], args[2]);
+                    yield ":" + count; // RESP integer reply
+                }
             default     -> "-ERR Unknown command";
         };
     }
