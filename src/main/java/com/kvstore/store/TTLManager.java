@@ -12,10 +12,11 @@ public class TTLManager {
 
     private static final ConcurrentHashMap<String, Long> expiryMap = new ConcurrentHashMap<>();
 
-    public static void setExpiry(String key, long ttlSeconds){
+    public static synchronized String setExpiry(String key, long ttlSeconds){
         long expiryTime = System.currentTimeMillis() + ttlSeconds * 1000;
         expiryMap.put(key, expiryTime);
         heap.offer(new long[]{expiryTime, key.hashCode()});
+        return "+OK" ;
     }
 
     public static boolean isExpired(String key){
@@ -32,18 +33,18 @@ public class TTLManager {
     // background thread activity purge expired keys
     public static void startCleanup(){
         Thread t = new Thread(() -> {
-    while(true){
-        try{
-            Thread.sleep(1000);
-            long now = System.currentTimeMillis();
-            while(!heap.isEmpty() && heap.peek()[0] <= now){
-                heap.poll();
+            while(true){
+                try{
+                    Thread.sleep(1000);
+                    long now = System.currentTimeMillis();
+                    while(!heap.isEmpty() && heap.peek()[0] <= now){
+                        heap.poll();
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            break;
-        }
-    }
         }, "ttl-cleanup");
 
         t.setDaemon(true);  
