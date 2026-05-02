@@ -24,7 +24,7 @@ public class Server {
                 logger.info("Client connected: "
                     + client.getInetAddress()
                     + ":" + client.getPort());
-                client.close();
+                new Thread(new ClientHandler(client)).start();
             }
         } catch(java.net.BindException  e){
             logger.severe("ERROR: Port "+ port +" is already in use.");
