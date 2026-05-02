@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 import com.kvstore.pubsub.PubSubManager;
 import com.kvstore.store.DataStore;
+import com.kvstore.store.TTLManager;
 
 public class ClientHandler implements Runnable {
     private final Socket socket ;
@@ -50,6 +51,7 @@ public class ClientHandler implements Runnable {
             case "GET" -> DataStore.get(args[1]);
             case "DEL" -> DataStore.del(args[1]);
             case "PING" -> "+PONG";
+            case "EXPIRE"  -> TTLManager.setExpiry(args[1], Long.parseLong(args[2]));
             case "SUBSCRIBE" -> {
                 PubSubManager.subscribe(args[1], out);
                 yield null; 
