@@ -97,33 +97,45 @@ redis-cli -p 6380
 ```
 
 ## CLI Demo
+```
+  _  ____     _______ _                    _____ _      _____
+ | |/ /\ \   / / ____| |                  / ____| |    |_   _|
+ | ' /  \ \_/ /|  _| | |_ ___  _ __ ___  | |    | |      | |
+ |  <    \   / | |___| __/ _ \| '__/ _ \ | |    | |      | |
+ | . \    | |  |_____| \__\___/|_|  \___/ |____||_____|  |_|
+ |_|\_\   |_|
 
-| |/ /\ \   / / | |                  / | |    |   |
-| ' /  \ _/ /|  | | | ___  _ __ ___ | |    | |      | |
-|  <    \   / | || / _ | '/ _ | |    | |      | |
-| . \    | |  |_____|____/||  _/ |||__|  ||
-||_\   |_|
 KVStore CLI v1.0.0 — Type 'help' for commands, 'exit' to quit
+
 Connected to localhost:6380
+
 localhost:6380> PING
 PONG
+
 localhost:6380> SET name Alice
 OK
+
 localhost:6380> GET name
 "Alice"
+
 localhost:6380> EXPIRE name 10
 (integer) 1
+
 localhost:6380> DEL name
 (integer) 1
+
 localhost:6380> GET name
 (nil)
+
 localhost:6380> SET message "hello world"
 OK
+
 localhost:6380> GET message
 "hello world"
+
 localhost:6380> exit
 Bye!
-
+```
 ---
 
 ## 🧪 Supported Commands
