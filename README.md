@@ -38,7 +38,8 @@ ClientHandler (one thread per client)
 | Pub/Sub | Observer pattern (CopyOnWriteArrayList) | O(n subscribers) |
 | Persistence | Append-Only File (AOF), replay on restart | O(n commands) |
 | Protocol | RESP over raw TCP (redis-cli compatible) | — |
-| Concurrency | One thread per client | — |
+| Concurrency | One thread per client, synchronized heap access | — |
+|CLI | Built-in interactive console client | — |
 
 ---
 
@@ -66,10 +67,62 @@ java -jar target/kvstore-1.0-SNAPSHOT.jar
 
 Server starts on **port 6380** by default.
 
-### Connect using redis-cli
+---
+
+## Connecting to the Server
+
+### Option 1 - KVStore CLI (Built-in)
+
+```bash
+java -cp target/kvstore-1.0-SNAPSHOT.jar com.kvstore.CLI
+```
+
+Connect to a remote server:
+```bash
+java -cp target/kvstore-1.0-SNAPSHOT.jar com.kvstore.CLI -h YOUR_SERVER_IP -p 6380
+```
+
+CLI options:
+| Flag | Default | Description |
+|---|---|---|
+| `-h <host>` | localhost | Server host |
+| `-p <port>` | 6380 | Server port |
+| `--help` | — | Show help |
+| `--version` | — | Show version |
+
+
+### Option 2 - Connect using redis-cli
 ```bash
 redis-cli -p 6380
 ```
+
+## CLI Demo
+
+| |/ /\ \   / / | |                  / | |    |   |
+| ' /  \ _/ /|  | | | ___  _ __ ___ | |    | |      | |
+|  <    \   / | || / _ | '/ _ | |    | |      | |
+| . \    | |  |_____|____/||  _/ |||__|  ||
+||_\   |_|
+KVStore CLI v1.0.0 — Type 'help' for commands, 'exit' to quit
+Connected to localhost:6380
+localhost:6380> PING
+PONG
+localhost:6380> SET name Alice
+OK
+localhost:6380> GET name
+"Alice"
+localhost:6380> EXPIRE name 10
+(integer) 1
+localhost:6380> DEL name
+(integer) 1
+localhost:6380> GET name
+(nil)
+localhost:6380> SET message "hello world"
+OK
+localhost:6380> GET message
+"hello world"
+localhost:6380> exit
+Bye!
 
 ---
 
@@ -164,8 +217,9 @@ java -cp kvstore-1.0-SNAPSHOT.jar com.kvstore.BenchmarkRunner
 ```
 src/
 ├── main/java/com/kvstore/
-│   ├── Server.java
-│   ├── ClientHandler.java
+│   ├── Server.java 
+│   ├── ClientHandler.java  
+|   ├── CLI.java  
 │   ├── BenchmarkRunner.java
 │   ├── store/
 │   │   ├── DataStore.java
